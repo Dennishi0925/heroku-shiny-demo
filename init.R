@@ -1,12 +1,12 @@
-my_packages = c("shiny", 'dplyr')
-
-install_if_missing = function(p) {
-  if (p %in% rownames(installed.packages()) == FALSE) {
-    install.packages(p)
-  }
-}
-
-invisible(sapply(my_packages, install_if_missing))
+# my_packages = c("shiny", 'dplyr')
+# 
+# install_if_missing = function(p) {
+#   if (p %in% rownames(installed.packages()) == FALSE) {
+#     install.packages(p)
+#   }
+# }
+# 
+# invisible(sapply(my_packages, install_if_missing))
 
 #
 # init.R
@@ -16,14 +16,14 @@ invisible(sapply(my_packages, install_if_missing))
 # MIT License and shit
 #
 # 
-# my_packages = c('showtext', "shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-#                 'shinyWidgets', 'DT', 'plotly',
-#                 'magrittr', 'dplyr', 'readr', 'stringr')
-# 
-# install_if_missing = function(p) {
-#   if (p %in% rownames(installed.packages()) == FALSE) {
-#     install.packages(p)
-#   }
-# }
-# 
-# invisible(sapply(my_packages, install_if_missing))
+my_packages = c('showtext', "shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
+                'shinyWidgets', 'DT', 'plotly',
+                'magrittr', 'dplyr', 'readr', 'stringr')
+
+install_if_missing = function(p) {
+  if (p %in% rownames(installed.packages()) == FALSE) {
+    install.packages(p)
+  }
+}
+
+invisible(sapply(my_packages, install_if_missing))
