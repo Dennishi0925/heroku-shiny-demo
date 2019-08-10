@@ -48,20 +48,15 @@
 
 
 
-pkgs <- c('showtext', "shiny", 'tidyverse', 'rlang', 'shinythemes', 'shinyjs', 'shinydashboard',
-          'tidyverse','googlesheets','openxlsx','psych','clipr','formattable', 'shinyWidgets', 'DT',
-          'data.table', "magrittr", 'reshape2', 'lubridate', 'stringr', 'dplyr', 'tidyr')
+pkgs <- c('showtext', "shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
+          'shinyWidgets', 'DT', 'plotly',
+          'magrittr', 'dplyr', 'readr', 'stringr')
 
-new.pkgs <- pkgs[!(pkgs %in% installed.packages())]
-# if (length(new.pkgs)) {
-#   install.packages(new.pkgs, repos = 'http://cran.csie.ntu.edu.tw/')
-# }
 lapply(pkgs, require, character.only = TRUE)
 showtext_auto()
-#font_add("jh", "msjh.ttc")
 options(shiny.usecairo = FALSE)
 
-table_tidy_final <- read_rds("raw_data/table_tidy_final.rds")
+table_tidy_final <- read_rds("table_tidy_final.rds")
 colnamesofdf <- table_tidy_final %>% colnames()
 
 colnamesofdf_f <- colnamesofdf %>%
