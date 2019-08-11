@@ -56,41 +56,8 @@ lapply(pkgs, require, character.only = TRUE)
 showtext_auto()
 options(shiny.usecairo = FALSE)
 
-table_tidy_final <- read_rds("table_tidy_final.rds")
-colnamesofdf <- table_tidy_final %>% colnames()
-
-colnamesofdf_f <- colnamesofdf %>%
-   str_replace("課程", "course") %>%
-   str_replace("老師", "teacher") %>%
-   str_replace("詳細", "detail") %>%
-   str_replace("名稱", "name") %>%
-   str_replace("授課教師", "theteacher") %>%
-   str_replace("流水號", "NTUID") %>%
-   str_replace("授課對象", "TA") %>%
-   str_replace("課號", "courseID") %>%
-   str_replace("學分", "credit") %>%
-   str_replace("班次", "class") %>%
-   str_replace("必_選修", "mandatory") %>%
-   str_replace("加選方式", "addway") %>%
-   str_replace("時間教室", "timeplace") %>%
-   str_replace("總人數", "totalN") %>%
-   str_replace("選課限制條件", "rules")
-colnames(table_tidy_final) <- colnamesofdf_f
-
-table_index <- table_tidy_final %>% select(matches("course_"))
-table_teacher <- table_tidy_final %>% select(course_ID, matches("teacher_"))
-table_detail <- table_tidy_final %>% select(course_ID, course_theteacher, course_name, matches("detail_"))
-
-table_index_print <- table_index %>%
-   mutate(course_TA = as.factor(course_TA)) %>%
-   mutate(course_credit = as.factor(course_credit)) %>%
-   select(course_ID, course_name, course_NTUID, course_TA, course_courseID, course_class, course_credit, course_mandatory, course_theteacher, course_addway, course_timeplace, course_totalN, course_rules)
-table_detail_print <- table_detail %>% select(-detail_schedule) 
-
-
-mapcolors <- c("#808080", "#B2182B", "#8D2B4B", "#693F6B", "#45528B", "#2166AC")
-
-columns <- colnames(table_index_print)
+table_index_print <- read_rds("table_index_print_eng.rds")
+table_detail_print <- read_rds("table_detail_print_eng.rds")
 
 getdeps <- function() {
    htmltools::attachDependencies(
