@@ -8,8 +8,8 @@ lapply(pkgs, require, character.only = TRUE)
 options(shiny.usecairo = FALSE)
 `%notin%` <- Negate(`%in%`)
 # table_index_print %>% distinct()
-table_index_print <- read_rds("/Users/dtseng02/Documents/Dennis/ntucourse/raw_data/table_index_print_eng_1081.rds") %>% distinct()
-table_detail_print <- read_rds("/Users/dtseng02/Documents/Dennis/ntucourse/raw_data/table_detail_print_eng_1081.rds") %>% distinct()
+table_index_print <- read_rds("table_index_print_eng_1081.rds") %>% distinct()
+table_detail_print <- read_rds("table_detail_print_eng_1081.rds") %>% distinct()
 # table_index_print %>% count(course_ID)
 
 getdeps <- function() {
