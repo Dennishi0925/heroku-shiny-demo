@@ -1,63 +1,20 @@
-# library(shiny)
-# library(dplyr)
-# 
-# # Define UI for application that draws a histogram
-# ui <- fluidPage(
-#    # Application title
-#    titlePanel("Old Faithful Geyser Data"),
-# 
-#    helpText(paste("Process Id", Sys.getpid())),
-# 
-#    # Sidebar with a slider input for number of bins
-#    sidebarLayout(
-#       sidebarPanel(
-#          sliderInput("bins",
-#                      "Number of 你好:",
-#                      min = 1,
-#                      max = 50,
-#                      value = 30)
-#       ),
-# 
-#       # Show a plot of the generated distribution
-#       mainPanel(
-#          plotOutput("distPlot")
-#       )
-#    )
-# )
-# 
-# # Define server logic required to draw a histogram
-# server <- function(input, output, session) {
-#    session$allowReconnect("force")
-#    output$distPlot <- renderPlot({
-#       # generate bins based on input$bins from ui.R
-#       x    <- faithful[, 2]
-#       bins <- seq(min(x), max(x), length.out = input$bins + 1)
-# 
-#       # draw the histogram with the specified number of bins
-#       hist(x, breaks = bins, col = 'darkgray', border = 'white')
-#    })
+pkgs <- c('showtext', "shiny", 'tidyverse', 'rlang', 'shinythemes', 'shinyjs', 'shinydashboard',
+          'tidyverse','googlesheets','openxlsx','psych','clipr','formattable', 'shinyWidgets', 'DT',
+          'data.table', "magrittr", 'reshape2', 'lubridate', 'stringr', 'dplyr', 'tidyr')
+
+new.pkgs <- pkgs[!(pkgs %in% installed.packages())]
+# if (length(new.pkgs)) {
+#   install.packages(new.pkgs, repos = 'http://cran.csie.ntu.edu.tw/')
 # }
-# 
-# # Run the application
-# shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
-
-pkgs <- c('showtext', "shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-          'shinyWidgets', 'DT', 'plotly',
-          'magrittr', 'dplyr', 'readr', 'stringr')
-
 lapply(pkgs, require, character.only = TRUE)
 showtext_auto()
+#font_add("jh", "msjh.ttc")
 options(shiny.usecairo = FALSE)
-
-table_index_print <- read_rds("table_index_print_eng.rds")
-table_detail_print <- read_rds("table_detail_print_eng.rds")
+`%notin%` <- Negate(`%in%`)
+# table_index_print %>% distinct()
+table_index_print <- read_rds("/Users/dtseng02/Documents/Dennis/ntucourse/raw_data/table_index_print_eng_1081.rds") %>% distinct()
+table_detail_print <- read_rds("/Users/dtseng02/Documents/Dennis/ntucourse/raw_data/table_detail_print_eng_1081.rds") %>% distinct()
+# table_index_print %>% count(course_ID)
 
 getdeps <- function() {
    htmltools::attachDependencies(
@@ -96,7 +53,7 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                                              )
                                         ),
                                         checkboxGroupButtons(inputId = "Monday", 
-                                                             label = NULL,
+                                                             label = "Monday",
                                                              choices  = c('一1'='一1', '一2'='一2', '一3'='一3', '一4'='一4', '一5'='一5', '一6'='一6', '一7'='一7', '一8'='一8', '一9'='一9', '一10'='一10', '一A'='一A', '一B'='一B', '一C'='一C'),
                                                              selected = c('一1'='一1', '一2'='一2', '一3'='一3', '一4'='一4', '一5'='一5', '一6'='一6', '一7'='一7', '一8'='一8', '一9'='一9', '一10'='一10', '一A'='一A', '一B'='一B', '一C'='一C'),
                                                              size =  'xs',
@@ -144,19 +101,33 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                                              )
                                         ),
                                         column(4,
-                                               selectizeInput("course_credit", "Choose course_credit",
+                                               selectizeInput("course_credit", "Choose 學分數",
                                                               c("All"= "All", levels(table_index_print$course_credit)),
                                                               multiple = TRUE,
                                                               selected = "3",
                                                               width = '200px'
                                                )),
                                         column(4,
-                                               selectizeInput("course_TA", "Choose State(s)",
+                                               selectizeInput("course_TA", "Choose 授課對象",
                                                               c("All"= "All", levels(table_index_print$course_TA)),
                                                               multiple = TRUE,
                                                               selected = "工管系",
                                                               width = '200px'
                                                )),
+                                        # searchInput(
+                                        #   inputId = "search", label = "Enter your text",
+                                        #   placeholder = "A placeholder",
+                                        #   btnSearch = icon("search"),
+                                        #   btnReset = icon("remove"),
+                                        #   width = "450px"
+                                        # ),
+                                        # column(4,
+                                        #        selectizeInput("course_JD", "Search 課程描述",
+                                        #                       c("All"= "All", levels(table_index_print$course_TA)),
+                                        #                       multiple = TRUE,
+                                        #                       selected = "工管系",
+                                        #                       width = '200px'
+                                        #        )),
                                         column(12,
                                                DTOutput("data" )))
                             ),
@@ -175,20 +146,27 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                      fluidPage(
                                         column(10,
                                                h3("An App to View NTU Course Data More Easily"),
-                                               p("I created this app to improve students' experiences when viewing course data",
-                                                 a("a list",
-                                                   href = "http://cawp.rutgers.edu/buzz-2018-potential-women-candidates-us-congress-and-statewide-elected-executive",
-                                                   target = "_blank"),
-                                                 "of women potentially running for US Congress and State offices. The data are current as of 6/20/18."),
-                                               p(a("R", href = "https://www.r-project.org", target = "_blank"),
-                                                 "code and details of data processing and visualization are available on",
-                                                 a("GitHub.", icon("github"), href = "https://github.com/JListman/Scrape_WomenRunning_CAWP", target = "_blank"),
-                                                 "Find me, Jenny Listman, on", a("Twitter", icon("twitter"),
-                                                                                 href = "https://twitter.com/jblistman", target = "_blank"),
+                                               p("I created this app to improve students' experiences when viewing course data. ",
+                                                 "The official website is this: ",
+                                                 a("ntu online course website",
+                                                   href = "https://nol.ntu.edu.tw/nol/guest/index.php",
+                                                   target = "_blank")),
+                                               p("Details of website creating process are available on",
+                                                 a("medium", icon("medium"),
+                                                   href = "https://medium.com/dennis-r-data-news", target = "_blank"),
+                                                 "Code are available on",
+                                                 a("GitHub.", icon("github"), 
+                                                   href = "https://github.com/Dennishi0925/open_ntucourse", target = "_blank"),
+                                                 "Find me, Dennis Tseng, on", 
+                                                 a("Facebook", icon("facebook"), 
+                                                   href = "https://www.facebook.com/profile.php?id=100003957316437", target = "_blank"),
+                                                 ', or on',
                                                  a("LinkedIn", icon("linkedin"),
-                                                   href = "https://www.linkedin.com/in/jenniferlistman/", target = "_blank"),
-                                                 "or read more about my data science and consulting work on my",
-                                                 a("website.", href = "https://twitter.com/jblistman", target = "_blank")),
+                                                   href = "https://linkedin.com/in/tzu-hsuan-tseng/", target = "_blank"),
+                                                 ", or you can read my work on",
+                                                 a("blog", icon("blog"),
+                                                   href = "https://dennisrdatanews.netlify.com", target = "_blank")
+                                               ), ".",
                                                HTML("<br><br><br>")
                                                #)
                                         )
@@ -200,39 +178,98 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                             )
                 )
 )
+# DT::datatable(head(iris), colnames = c('Here', 'Are', 'Some', 'New', 'Names')) heroku ok?
+# DT::datatable(
+#   iris, extensions = 'Buttons', options = list(
+#     dom = 'Bfrtip',
+#     buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+#   )
+# )
+# DT::datatable(iris2, extensions = 'Responsive')
 
 server <- function(input, output) {
    
    output$data <- renderDataTable({
       weekday = c(input$Monday,input$Tuesday,input$Tuesday,input$Thursday,input$Friday,input$Saturday)
       
+      
+      # if (input$selectall == 0)
+      #   DT::datatable(data.frame(table_index_print  %>%
+      #                          mutate(filter(row_number() < 1)
+      #   )),filter = list(position = 'top', clear = FALSE), escape = FALSE)
+      # else 
       if ("All" %in% input$course_credit & "All" %in% input$course_TA)
-         datatable(data.frame(table_index_print  %>%
-                                 mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
-                                                           "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
-                                                           course_ID,"</a>"))
-         ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
-      else if ("All" %in% input$course_credit & input$course_TA != "All")
-         datatable(data.frame(table_index_print %>% filter(course_TA %in% input$course_TA)  %>%
-                                 mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
-                                                           "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
-                                                           course_ID,"</a>"))
-         ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
-      else if (input$course_credit != "All" & "All" %in% input$course_TA)
-         datatable(data.frame(table_index_print %>% filter(course_credit %in% input$course_credit) %>%
-                                 mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
-                                                           "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
-                                                           course_ID,"</a>"))
-         ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
+         DT::datatable(data.frame(table_index_print  %>%
+                                     # select(-course_JD) %>%
+                                     mutate(course_ID = paste0("<a href='#table2'", "alt='", course_ID,                                    
+                                                               "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
+                                                               course_ID,"</a>"))), 
+                       # options = list(columnDefs = list(list(
+                       #                             targets = 15,
+                       #                             render = JS(
+                       #                               "function(data, type, row, meta) {",
+                       #                               "return type === 'display' && data.length > 6 ?",
+                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
+                       #                               "}")
+                       #                           ))
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
+      
+      
+      else if ("All" %in% input$course_credit & "All" %notin% input$course_TA)
+         DT::datatable(data.frame(table_index_print %>% filter(course_TA %in% input$course_TA)  %>%
+                                     mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
+                                                               "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
+                                                               course_ID,"</a>"))), 
+                       # options = list(columnDefs = list(list(
+                       #                             targets = 15,
+                       #                             render = JS(
+                       #                               "function(data, type, row, meta) {",
+                       #                               "return type === 'display' && data.length > 6 ?",
+                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
+                       #                               "}")
+                       #                           ))
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
+      
+      else if ("All" %notin% input$course_credit & "All" %in% input$course_TA)
+         DT::datatable(data.frame(table_index_print %>% filter(course_credit %in% input$course_credit) %>%
+                                     mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
+                                                               "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
+                                                               course_ID,"</a>"))), 
+                       # options = list(columnDefs = list(list(
+                       #                             targets = 15,
+                       #                             render = JS(
+                       #                               "function(data, type, row, meta) {",
+                       #                               "return type === 'display' && data.length > 6 ?",
+                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
+                       #                               "}")
+                       #                           ))
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
+      
       else
-         datatable(data.frame(table_index_print %>%
-                                 filter(str_detect(course_mandatory,str_c(input$mandotary, collapse = "|"))) %>%#weekday
-                                 filter(str_detect(course_timeplace,str_c(weekday, collapse = "|"))) %>%#weekday
-                                 filter(course_credit %in% input$course_credit) %>% filter(course_TA %in% input$course_TA) %>%
-                                 mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
-                                                           "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
-                                                           course_ID,"</a>"))
-         ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
+         DT::datatable(data.frame(table_index_print %>%
+                                     filter(str_detect(course_mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(detail_course_time,str_c(weekday, collapse = "|"))) %>%
+                                     filter(course_credit %in% input$course_credit) %>% filter(course_TA %in% input$course_TA) %>%
+                                     mutate(course_ID = paste0("<a href='#table2'", "alt='",course_ID,                                    
+                                                               "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('course_ID', getAttribute('alt'));\">",
+                                                               course_ID,"</a>"))), 
+                       # options = list(columnDefs = list(list(
+                       #                             targets = 15,
+                       #                             render = JS(
+                       #                               "function(data, type, row, meta) {",
+                       #                               "return type === 'display' && data.length > 6 ?",
+                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
+                       #                               "}")
+                       #                           ))
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
    }
    #,escape = FALSE
    
@@ -261,17 +298,17 @@ server <- function(input, output) {
    output$table2 <- DT::renderDataTable({
       # selected <- input$data_rows_selected
       # if(is.null(selected)){
-      #   datatable(table_detail_print)
+      #   DT::datatable(table_detail_print)
       # } else {
-      #   datatable(table_detail_print %>% filter(course_ID==input$course_ID) %>% select(-course_ID) %>% transpose_df())
+      #   DT::datatable(table_detail_print %>% filter(course_ID==input$course_ID) %>% select(-course_ID) %>% transpose_df())
       # }
       # 
       if(!is.null(input$course_ID)){
-         datatable(table_detail_print %>% filter(course_ID==input$course_ID) %>% select(-course_ID) %>% transpose_df())
+         DT::datatable(table_detail_print %>% filter(course_ID==input$course_ID) %>% select(-course_ID) %>% transpose_df())
          # }else if(!is.null(input$course_ID2)){
-         #   datatable(table_detail_print)
+         #   DT::datatable(table_detail_print)
       }else {
-         datatable(table_detail_print)
+         DT::datatable(table_detail_print)
       }
    })
    
@@ -285,12 +322,3 @@ server <- function(input, output) {
 }
 # table_detail_print %>% filter(course_ID == 8800)
 shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
-
-
