@@ -16,7 +16,7 @@
 # MIT License and shit
 #
 # 
-pkgs <- c("shiny", 'shinythemes', 
+my_packages <- c("shiny", 'shinythemes', 
           'shinyjs', #'shinydashboard',
           'shinyWidgets', 'DT', 'data.table', 'showtext', #'plotly', 
           'magrittr', 'dplyr', 'readr', 'stringr')

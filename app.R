@@ -154,28 +154,24 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                                    target = "_blank")),
                                                p("Details of website creating process are available on",
                                                  a("medium", icon("medium"),
-                                                   href = "https://medium.com/dennis-r-data-news", target = "_blank"),
-                                                 "Code are available on",
+                                                   href = "https://medium.com/dennis-r-data-news", target = "_blank")),
+                                               p("Code are available on",
                                                  a("GitHub.", icon("github"), 
                                                    href = "https://github.com/Dennishi0925/open_ntucourse", target = "_blank"),
                                                  "Find me, Dennis Tseng, on", 
-                                                 a("Facebook", icon("facebook"), 
-                                                   href = "https://www.facebook.com/profile.php?id=100003957316437", target = "_blank"),
-                                                 ', or on',
                                                  a("LinkedIn", icon("linkedin"),
                                                    href = "https://linkedin.com/in/tzu-hsuan-tseng/", target = "_blank"),
                                                  ", or you can read my work on",
                                                  a("blog", icon("blog"),
                                                    href = "https://dennisrdatanews.netlify.com", target = "_blank")
-                                               ), ".",
+                                               ),
                                                HTML("<br><br><br>")
                                                #)
                                         )
                                      )
                             ),
                             tags$div(class="footer", checked=NA, tags$p("An interactive app to view course data powered by ",
-                                                                        a("Dennis", href = "http://www.cawp.rutgers.edu", target = "_blank")),
-                                     tags$p(a("View code",icon("github"), href = "https://github.com/JListman/Scrape_WomenRunning_CAWP", target = "_blank"))
+                                                                        a("Dennis Tseng", href = "http://bit.ly/2LSPmuu", target = "_blank"))
                             )
                 )
 )
