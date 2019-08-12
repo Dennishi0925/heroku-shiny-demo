@@ -1,5 +1,5 @@
 pkgs <- c("shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-          'shinyWidgets', 'DT', 'datatable', 'showtext', #'plotly', 
+          'shinyWidgets', 'DT', 'data.table', 'showtext', #'plotly', 
           'magrittr', 'dplyr', 'readr', 'stringr')
 
 lapply(pkgs, require, character.only = TRUE)
@@ -40,8 +40,8 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                      fluidPage(
                                         checkboxGroupButtons(inputId = "mandotary", 
                                                              label = "Label",
-                                                             choices = c("必" = "必",
-                                                                         "選" = "選"),
+                                                             choices = c("required" = "必",
+                                                                         "elective" = "選"),
                                                              selected = c("必", "選"),
                                                              checkIcon = list(
                                                                 yes = icon("ok",
@@ -49,7 +49,7 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                                              )
                                         ),
                                         checkboxGroupButtons(inputId = "Monday", 
-                                                             label = "Monday",
+                                                             # label = "Monday",
                                                              choices  = c('一1'='一1', '一2'='一2', '一3'='一3', '一4'='一4', '一5'='一5', '一6'='一6', '一7'='一7', '一8'='一8', '一9'='一9', '一10'='一10', '一A'='一A', '一B'='一B', '一C'='一C'),
                                                              selected = c('一1'='一1', '一2'='一2', '一3'='一3', '一4'='一4', '一5'='一5', '一6'='一6', '一7'='一7', '一8'='一8', '一9'='一9', '一10'='一10', '一A'='一A', '一B'='一B', '一C'='一C'),
                                                              size =  'xs',

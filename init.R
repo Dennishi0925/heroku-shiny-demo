@@ -17,7 +17,7 @@
 #
 # 
 my_packages = c("shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-                'shinyWidgets', 'DT', 'datatable', 'showtext', #'plotly', 
+                'shinyWidgets', 'DT', 'data.table', 'showtext', #'plotly', 
                 'magrittr', 'dplyr', 'readr', 'stringr')
 
 install_if_missing = function(p) {
