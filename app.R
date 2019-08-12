@@ -149,10 +149,10 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                         column(10,
                                                h3("An App to View NTU Course Data More Easily"),
                                                p("I created this app to improve students' experiences when viewing course data. ",
-                                                 "The official website is this: ",
-                                                 a("ntu online course website",
-                                                   href = "https://nol.ntu.edu.tw/nol/guest/index.php",
-                                                   target = "_blank")),
+                                                 # "The official website is this: ",
+                                                 # a("ntu online course website",
+                                                 #   href = "https://nol.ntu.edu.tw/nol/guest/index.php",
+                                                 #   target = "_blank")),
                                                p("Details of website creating process are available on",
                                                  a("medium", icon("medium"),
                                                    href = "https://medium.com/dennis-r-data-news", target = "_blank")),
@@ -318,12 +318,12 @@ server <- function(input, output) {
       }
    })
    
-   output$page2 <- renderText({
-      #print(input$ID)
-      name_print = table_index_print %>% filter(ID == input$ID) %>% pull(name)
-      paste0("Detailed course information for  ", name_print, " :")
-      
-   })
+   # output$page2 <- renderText({
+   #    #print(input$ID)
+   #    name_print = table_index_print %>% filter(ID == input$ID) %>% pull(name)
+   #    paste0("Detailed course information for  ", name_print, " :")
+   #    
+   # })
    
 }
 # table_detail_print %>% filter(ID == 8800)
