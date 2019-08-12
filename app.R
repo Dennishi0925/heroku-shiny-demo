@@ -1,9 +1,9 @@
 pkgs <- c("shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-          'shinyWidgets', 'DT', #'plotly', 'showtext', 
+          'shinyWidgets', 'DT', 'datatable', 'showtext', #'plotly', 
           'magrittr', 'dplyr', 'readr', 'stringr')
 
 lapply(pkgs, require, character.only = TRUE)
-# showtext_auto()
+showtext_auto()
 #font_add("jh", "msjh.ttc")
 options(shiny.usecairo = FALSE)
 `%notin%` <- Negate(`%in%`)
