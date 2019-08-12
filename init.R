@@ -16,9 +16,10 @@
 # MIT License and shit
 #
 # 
-my_packages = c("shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-                'shinyWidgets', 'DT', 'data.table', 'showtext', #'plotly', 
-                'magrittr', 'dplyr', 'readr', 'stringr')
+pkgs <- c("shiny", 'shinythemes', 
+          'shinyjs', #'shinydashboard',
+          'shinyWidgets', 'DT', 'data.table', 'showtext', #'plotly', 
+          'magrittr', 'dplyr', 'readr', 'stringr')
 
 install_if_missing = function(p) {
   if (p %in% rownames(installed.packages()) == FALSE) {
