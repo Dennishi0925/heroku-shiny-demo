@@ -9,9 +9,9 @@ showtext_auto()
 options(shiny.usecairo = FALSE)
 `%notin%` <- Negate(`%in%`)
 # table_index_print %>% distinct()
-table_index_print <- read_rds("/Users/dtseng02/Documents/Dennis/ntucourse/raw_data/table_index_print_eng_1081.rds") %>% 
+table_index_print <- read_rds("table_index_print_eng_1081.rds") %>% 
    rename(link_add = link_addcourse)
-table_detail_print <- read_rds("/Users/dtseng02/Documents/Dennis/ntucourse/raw_data/table_detail_print_eng_1081.rds") %>% 
+table_detail_print <- read_rds("table_detail_print_eng_1081.rds") %>% 
    rename(ID = course_ID)
 # table_index_print %>% count(ID)
 colnames(table_index_print) <- str_replace(colnames(table_index_print),"course_|link_", "")
@@ -36,6 +36,7 @@ transpose_df <- function(df) {
 }
 
 ui <- fluidPage(theme = shinytheme("yeti"),
+                tags$head(includeHTML(("google-analytics.html"))),
                 #tags$head(includeScript("google_analytics.js")),
                 titlePanel("Open NTU Course Selection"),
                 tabsetPanel(type = "tabs",
