@@ -16,8 +16,8 @@
 # MIT License and shit
 #
 # 
-my_packages = c('showtext', "shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
-                'shinyWidgets', 'DT', 'plotly',
+my_packages = c("shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
+                'shinyWidgets', 'DT', #'plotly', 'showtext', 
                 'magrittr', 'dplyr', 'readr', 'stringr')
 
 install_if_missing = function(p) {

@@ -1,13 +1,9 @@
-pkgs <- c('showtext', "shiny", 'tidyverse', 'rlang', 'shinythemes', 'shinyjs', 'shinydashboard',
-          'tidyverse','googlesheets','openxlsx','psych','clipr','formattable', 'shinyWidgets', 'DT',
-          'data.table', "magrittr", 'reshape2', 'lubridate', 'stringr', 'dplyr', 'tidyr')
+pkgs <- c("shiny", 'shinythemes', 'shinyjs', 'shinydashboard',
+          'shinyWidgets', 'DT', #'plotly', 'showtext', 
+          'magrittr', 'dplyr', 'readr', 'stringr')
 
-new.pkgs <- pkgs[!(pkgs %in% installed.packages())]
-# if (length(new.pkgs)) {
-#   install.packages(new.pkgs, repos = 'http://cran.csie.ntu.edu.tw/')
-# }
 lapply(pkgs, require, character.only = TRUE)
-showtext_auto()
+# showtext_auto()
 #font_add("jh", "msjh.ttc")
 options(shiny.usecairo = FALSE)
 `%notin%` <- Negate(`%in%`)
