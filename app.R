@@ -12,11 +12,16 @@ options(shiny.usecairo = FALSE)
 `%notin%` <- Negate(`%in%`)
 # table_index_print %>% distinct()
 table_index_print <- readRDS("table_index_print_eng_1081.rds") %>% 
-   rename(link_add = link_addcourse)
+   rename(link_add = link_addcourse, course_teacher = course_theteacher) %>%
+   mutate(course_addway = if_else(is.na(course_addway), "NA", as.character(course_addway)))
 table_detail_print <- readRDS("table_detail_print_eng_1081.rds") %>% 
    rename(ID = course_ID)
+# table_index_print %>% count(course_addway)
+# table_index_print %>% filter(is.na(course_addway))
+# filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
 # table_index_print %>% count(ID)
 colnames(table_index_print) <- str_replace(colnames(table_index_print),"course_|link_", "")
+cool <- readRDS("dennis_good.rds")
 
 getdeps <- function() {
    htmltools::attachDependencies(
@@ -45,63 +50,30 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                             #tabPanel("Map", align="center", plotlyOutput("statebins", width = "900px", height = "600px")),
                             tabPanel("Searchable Table",
                                      fluidPage(
-                                        checkboxGroupButtons(inputId = "mandotary", 
-                                                             label = "Required",
-                                                             choices = c("required" = "必",
-                                                                         "elective" = "選"),
-                                                             selected = c("必", "選"),
-                                                             size = "xs",
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
-                                        checkboxGroupButtons(inputId = "Monday", 
-                                                             # label = "Monday",
-                                                             choices  = c('M1'='一1', 'M2'='一2', 'M3'='一3', 'M4'='M4', 'M5'='一5', 'M6'='M6', 'M7'='一7', 'M8'='一8', 'M9'='一9', 'M10'='一10', 'MA'='一A', 'MB'='一B', 'MC'='一C'),
-                                                             selected = c('M1'='一1', 'M2'='一2', 'M3'='一3', 'M4'='M4', 'M5'='一5', 'M6'='M6', 'M7'='一7', 'M8'='一8', 'M9'='一9', 'M10'='一10', 'MA'='一A', 'MB'='一B', 'MC'='一C'),
-                                                             size =  'xs',
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
-                                        checkboxGroupButtons(inputId = "Tuesday", 
-                                                             label = NULL,
-                                                             choices  = c('T1'='二1', 'T2'='二2', 'T3'='二3', 'T4'='二4', 'T5'='二5', 'T6'='二6', 'T7'='二7', 'T8'='二8', 'T9'='二9', 'T10'='二10', 'TA'='二A', 'TB'='二B', 'TC'='二C'),
-                                                             selected = c('T1'='二1', 'T2'='二2', 'T3'='二3', 'T4'='二4', 'T5'='二5', 'T6'='二6', 'T7'='二7', 'T8'='二8', 'T9'='二9', 'T10'='二10', 'TA'='二A', 'TB'='二B', 'TC'='二C'),
-                                                             size =  'xs',
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
-                                        checkboxGroupButtons(inputId = "Wednesday", 
-                                                             label = NULL,
-                                                             choices  = c('W1'='三1', 'W2'='三2', 'W3'='三3', 'W4'='三4', 'W5'='三5', 'W6'='三6', 'W7'='三7', 'W8'='三8', 'W9'='三9', 'W10'='三10', 'WA'='三A', 'WB'='三B', 'WC'='三C'),
-                                                             selected = c('W1'='三1', 'W2'='三2', 'W3'='三3', 'W4'='三4', 'W5'='三5', 'W6'='三6', 'W7'='三7', 'W8'='三8', 'W9'='三9', 'W10'='三10', 'WA'='三A', 'WB'='三B', 'WC'='三C'),
-                                                             size =  'xs',
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
-                                        checkboxGroupButtons(inputId = "Thursday", 
-                                                             label = NULL,
-                                                             choices  = c('T1'='四1', 'T2'='四2', 'T3'='四3', 'T4'='四4', 'T5'='四5', 'T6'='四6', 'T7'='四7', 'T8'='四8', 'T9'='四9', 'T10'='四10', 'TA'='四A', 'TB'='四B', 'TC'='四C'),
-                                                             selected = c('T1'='四1', 'T2'='四2', 'T3'='四3', 'T4'='四4', 'T5'='四5', 'T6'='四6', 'T7'='四7', 'T8'='四8', 'T9'='四9', 'T10'='四10', 'TA'='四A', 'TB'='四B', 'TC'='四C'),
-                                                             size =  'xs',
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
-                                        checkboxGroupButtons(inputId = "Friday", 
-                                                             label = NULL,
-                                                             choices  = c('F1'='五1', 'F2'='五2', 'F3'='五3', 'F4'='五4', 'F5'='五5', 'F6'='五6', 'F7'='五7', 'F8'='五8', 'F9'='五9', 'F10'='五10', 'FA'='五A', 'FB'='五B', 'FC'='五C'),
-                                                             selected = c('F1'='五1', 'F2'='五2', 'F3'='五3', 'F4'='五4', 'F5'='五5', 'F6'='五6', 'F7'='五7', 'F8'='五8', 'F9'='五9', 'F10'='五10', 'FA'='五A', 'FB'='五B', 'FC'='五C'),
-                                                             size =  'xs',
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
-                                        checkboxGroupButtons(inputId = "Saturday", 
-                                                             label = NULL,
-                                                             choices  = c('S1'='六1', 'S2'='六2', 'S3'='六3', 'S4'='六4', 'S5'='六5', 'S6'='六6', 'S7'='六7', 'S8'='六8', 'S9'='六9', 'S10'='六10', 'SA'='六A', 'SB'='六B', 'SC'='六C'),
-                                                             selected = c('S1'='六1', 'S2'='六2', 'S3'='六3', 'S4'='六4', 'S5'='六5', 'S6'='六6', 'S7'='六7', 'S8'='六8', 'S9'='六9', 'S10'='六10', 'SA'='六A', 'SB'='六B', 'SC'='六C'),
-                                                             size =  'xs',
-                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
-                                                             )
-                                        ),
+                                        fluidRow(
+                                           column(4,
+                                                  checkboxGroupButtons(inputId = "mandotary", 
+                                                                       label = "Required",
+                                                                       choices = c("required" = "必",
+                                                                                   "elective" = "選"),
+                                                                       selected = c("必", "選"),
+                                                                       size = "xs",
+                                                                       checkIcon = list(yes = icon("ok",lib = "glyphicon")
+                                                                       )
+                                                  )),
+                                           column(4,
+                                                  checkboxGroupButtons(inputId = "addway", 
+                                                                       label = "Add Way",
+                                                                       choices = c("1" = "1",
+                                                                                   "2" = "2",
+                                                                                   "3" = "2",
+                                                                                   "NA" = "NA"),
+                                                                       selected = c("1", "2", "3", "NA"),
+                                                                       size = "xs",
+                                                                       checkIcon = list(yes = icon("ok",lib = "glyphicon")
+                                                                       )
+                                                  ))),
+                                        fluidRow(
                                         column(4,
                                                selectizeInput("credit", "Choose 學分數",
                                                               c("All"= "All", levels(table_index_print$credit)),
@@ -110,12 +82,19 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                                               width = '200px'
                                                )),
                                         column(4,
+                                               selectizeInput("detail_time", "Choose 上課時間",
+                                                              c("All"= "All", cool),
+                                                              multiple = TRUE,
+                                                              selected = "All",
+                                                              width = '200px'
+                                               )),
+                                        column(4,
                                                selectizeInput("TA", "Choose 授課對象",
                                                               c("All"= "All", levels(table_index_print$TA)),
                                                               multiple = TRUE,
                                                               selected = "工管系",
                                                               width = '200px'
-                                               )),
+                                               ))),
                                         # searchInput(
                                         #   inputId = "search", label = "Enter your text",
                                         #   placeholder = "A placeholder",
@@ -188,78 +167,107 @@ ui <- fluidPage(theme = shinytheme("yeti"),
 server <- function(input, output) {
    
    output$data <- renderDataTable({
-      weekday = c(input$Monday,input$Tuesday,input$Tuesday,input$Thursday,input$Friday,input$Saturday)
+      # weekday = c(input$Monday,input$Tuesday,input$Wednesday,input$Thursday,input$Friday,input$Saturday)
       
-      
-      # if (input$selectall == 0)
-      #   DT::datatable(data.frame(table_index_print  %>%
-      #                          mutate(filter(row_number() < 1)
-      #   )),filter = list(position = 'top', clear = FALSE), escape = FALSE)
-      # else 
-      if ("All" %in% input$credit & "All" %in% input$TA)
-         DT::datatable(data.frame(table_index_print  %>%
-                                     # select(-JD) %>%
+      if ("All" %in% input$credit & "All" %in% input$TA & "All" %in% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
                                      mutate(add = paste0("<a href='",add,"'>","add","</a>"),
                                             ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
                                             ID = paste0("<a href='#table2'", "alt='", ID,                                    
                                                                "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                                ID,"</a>"))), 
-                       # options = list(columnDefs = list(list(
-                       #                             targets = 15,
-                       #                             render = JS(
-                       #                               "function(data, type, row, meta) {",
-                       #                               "return type === 'display' && data.length > 6 ?",
-                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
-                       #                               "}")
-                       #                           ))
                        options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
       
+      else if ("All" %in% input$credit & "All" %in% input$TA & "All" %notin% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>% filter(str_detect(detail_time, str_c(input$detail_time, collapse = "|"))) %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
+                                     mutate(add = paste0("<a href='",add,"'>","add","</a>"),
+                                            ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
+                                            ID = paste0("<a href='#table2'", "alt='",ID,                                    
+                                                        "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
+                                                        ID,"</a>"))), 
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
       
-      else if ("All" %in% input$credit & "All" %notin% input$TA)
-         DT::datatable(data.frame(table_index_print %>% filter(TA %in% input$TA)  %>%
+      else if ("All" %in% input$credit & "All" %notin% input$TA & "All" %in% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>% filter(TA %in% input$TA) %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
+                                     mutate(add = paste0("<a href='",add,"'>","add","</a>"),
+                                            ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
+                                            ID = paste0("<a href='#table2'", "alt='",ID,                                    
+                                                        "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
+                                                        ID,"</a>"))), 
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
+            
+      else if ("All" %notin% input$credit & "All" %in% input$TA & "All" %in% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>% filter(credit %in% input$credit) %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
+                                     mutate(add = paste0("<a href='",add,"'>","add","</a>"),
+                                            ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
+                                            ID = paste0("<a href='#table2'", "alt='",ID,                                    
+                                                        "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
+                                                        ID,"</a>"))), 
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
+      
+      else if ("All" %in% input$credit & "All" %notin% input$TA & "All" %notin% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>% filter(TA %in% input$TA)  %>% filter(str_detect(detail_time, str_c(input$detail_time, collapse = "|"))) %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
                                      mutate(add = paste0("<a href='",add,"'>","add","</a>"),
                                             ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                                "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                                ID,"</a>"))), 
-                       # options = list(columnDefs = list(list(
-                       #                             targets = 15,
-                       #                             render = JS(
-                       #                               "function(data, type, row, meta) {",
-                       #                               "return type === 'display' && data.length > 6 ?",
-                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
-                       #                               "}")
-                       #                           ))
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
+                                    columnDefs = list(list(visible=FALSE, targets=c(14,15)))
+                       ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
+      
+      else if ("All" %notin% input$credit & "All" %in% input$TA & "All" %notin% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>% filter(credit %in% input$credit) %>% filter(str_detect(detail_time, str_c(input$detail_time, collapse = "|"))) %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
+                                     mutate(add = paste0("<a href='",add,"'>","add","</a>"),
+                                            ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
+                                            ID = paste0("<a href='#table2'", "alt='",ID,                                    
+                                                               "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
+                                                               ID,"</a>"))), 
                        options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
       
-      else if ("All" %notin% input$credit & "All" %in% input$TA)
-         DT::datatable(data.frame(table_index_print %>% filter(credit %in% input$credit) %>%
+      
+      else if ("All" %notin% input$credit & "All" %notin% input$TA & "All" %in% input$detail_time)
+         DT::datatable(data.frame(table_index_print %>% filter(credit %in% input$credit) %>% filter(TA %in% input$TA) %>%
+                                     filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
                                      mutate(add = paste0("<a href='",add,"'>","add","</a>"),
                                             ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
-                                                               "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
-                                                               ID,"</a>"))), 
-                       # options = list(columnDefs = list(list(
-                       #                             targets = 15,
-                       #                             render = JS(
-                       #                               "function(data, type, row, meta) {",
-                       #                               "return type === 'display' && data.length > 6 ?",
-                       #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
-                       #                               "}")
-                       #                           ))
+                                                        "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
+                                                        ID,"</a>"))), 
                        options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = ''),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
       
       else
          DT::datatable(data.frame(table_index_print %>%
+                                     filter(credit %in% input$credit) %>% 
+                                     filter(TA %in% input$TA) %>% 
+                                     filter(str_detect(detail_time, str_c(input$detail_time, collapse = "|"))) %>%
                                      filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
-                                     filter(str_detect(detail_time,str_c(weekday, collapse = "|"))) %>%
-                                     filter(credit %in% input$credit) %>% filter(TA %in% input$TA) %>%
+                                     filter(str_detect(addway,str_c(input$addway, collapse = "|"))) %>%
                                      mutate(add = paste0("<a href='",add,"'>","add","</a>"),
                                             ptt = paste0("<a href='",ptt,"'>","ptt","</a>"),
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
