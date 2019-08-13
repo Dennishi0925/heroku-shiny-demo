@@ -11,7 +11,7 @@
   m.parentNode.insertBefore(a,m);
 })(window,document,'script',
    'https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-143837983-2', 'auto');
+ga('create', 'UA-143837983-2', 'herokuapp.com');
 ga('send', 'pageview');
 
 $(document).on('change', 'select', function(e) {
@@ -21,3 +21,4 @@ $(document).on('change', 'select', function(e) {
 $(document).on('click', 'button', function() {
   ga('send', 'event', 'button', 'plot data');
 });
+

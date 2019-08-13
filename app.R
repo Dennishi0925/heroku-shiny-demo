@@ -42,9 +42,9 @@ transpose_df <- function(df) {
    return(t_df)
 }
 
-ui <- fluidPage(theme = shinytheme("yeti"),
-                # tags$head(includeHTML(("google-analytics.html"))), 
+ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))), 
                 tags$head(includeScript("google_analytics.js")),
+                theme = shinytheme("yeti"),
                 titlePanel("Open NTU Course Selection"),
                 tabsetPanel(type = "tabs",
                             #tabPanel("Map", align="center", plotlyOutput("statebins", width = "900px", height = "600px")),
