@@ -132,9 +132,9 @@ ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))),
                                                  # a("ntu online course website",
                                                  #   href = "https://nol.ntu.edu.tw/nol/guest/index.php",
                                                  #   target = "_blank")),
-                                               p("Details of website creating process are available on",
+                                               p("Details of website creating process and the way to use this websit are available on",
                                                  a("medium", icon("medium"),
-                                                   href = "https://medium.com/dennis-r-data-news", target = "_blank")),
+                                                   href = "http://bit.ly/2OSeh4B", target = "_blank")),
                                                p("Code are available on",
                                                  a("GitHub.", icon("github"), 
                                                    href = "https://github.com/Dennishi0925/open_ntucourse", target = "_blank"),
@@ -143,7 +143,7 @@ ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))),
                                                    href = "https://linkedin.com/in/tzu-hsuan-tseng/", target = "_blank"),
                                                  ", or you can read my work on",
                                                  a("blog", icon("blog"),
-                                                   href = "https://dennisrdatanews.netlify.com", target = "_blank")
+                                                   href = "http://bit.ly/2KKXTgN", target = "_blank")
                                                ),
                                                HTML("<br><br><br>")
                                                #)
