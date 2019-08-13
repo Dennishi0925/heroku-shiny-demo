@@ -1,7 +1,9 @@
 pkgs <- c("shiny", 'shinythemes', 
           'shinyjs', #'shinydashboard',
-          'shinyWidgets', 'DT', 'data.table', 'showtext', #'plotly', 
-          'magrittr', 'dplyr', 'readr', 'stringr')
+          'shinyWidgets', 'DT', 
+          'data.table', 'showtext', #'plotly', 
+          'magrittr', 'dplyr', #'readr', 
+          'stringr')
 
 lapply(pkgs, require, character.only = TRUE)
 showtext_auto()
@@ -9,9 +11,9 @@ showtext_auto()
 options(shiny.usecairo = FALSE)
 `%notin%` <- Negate(`%in%`)
 # table_index_print %>% distinct()
-table_index_print <- read_rds("table_index_print_eng_1081.rds") %>% 
+table_index_print <- readRDS("table_index_print_eng_1081.rds") %>% 
    rename(link_add = link_addcourse)
-table_detail_print <- read_rds("table_detail_print_eng_1081.rds") %>% 
+table_detail_print <- readRDS("table_detail_print_eng_1081.rds") %>% 
    rename(ID = course_ID)
 # table_index_print %>% count(ID)
 colnames(table_index_print) <- str_replace(colnames(table_index_print),"course_|link_", "")
@@ -49,9 +51,7 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                                                          "elective" = "選"),
                                                              selected = c("必", "選"),
                                                              size = "xs",
-                                                             checkIcon = list(
-                                                                yes = icon("ok",
-                                                                           lib = "glyphicon")
+                                                             checkIcon = list(yes = icon("ok",lib = "glyphicon")
                                                              )
                                         ),
                                         checkboxGroupButtons(inputId = "Monday", 
@@ -148,7 +148,7 @@ ui <- fluidPage(theme = shinytheme("yeti"),
                                      fluidPage(
                                         column(10,
                                                h3("An App to View NTU Course Data More Easily"),
-                                               p("I created this app to improve students' experiences when viewing course data. ",
+                                               p("I created this app to improve students' experiences when viewing course data. "),
                                                  # "The official website is this: ",
                                                  # a("ntu online course website",
                                                  #   href = "https://nol.ntu.edu.tw/nol/guest/index.php",
