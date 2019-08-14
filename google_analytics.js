@@ -14,11 +14,7 @@
 ga('create', 'UA-143837983-2', 'ntucourse.herokuapp.com');
 ga('send', 'pageview');
 
-$(document).on('change', 'select', function(e) {
-    ga('send', 'event', 'widget', 'select data', $(e.currentTarget).val());
-});
 
-$(document).on('click', 'button', function() {
-  ga('send', 'event', 'button', 'plot data');
-});
-
+$(document).on('click', 'a', function() { ga('send', 'event', 'Link', 'click'); });
+$(document).on('change', 'input', function(){  ga('send', 'event', 'Input', 'change' ); });
+$(document).on('click', 'button', function() { ga('send', 'event', 'Filter', 'click'); })

@@ -13,15 +13,16 @@ options(shiny.usecairo = FALSE)
 # table_index_print %>% distinct()
 table_index_print <- readRDS("table_index_print_eng_1081.rds") %>% 
    rename(link_add = link_addcourse, course_teacher = course_theteacher) %>%
-   mutate(course_addway = if_else(is.na(course_addway), "NA", as.character(course_addway)))
+   mutate(course_addway = if_else(is.na(course_addway), "NA", as.character(course_addway))) %>%
+   mutate(course_TA = as.factor(if_else(is.na(course_TA), "NA", as.character(course_TA)))) %>%
+   mutate(detail_course_time = as.factor(if_else(is.na(detail_course_time), "NA", as.character(detail_course_time))))
 table_detail_print <- readRDS("table_detail_print_eng_1081.rds") %>% 
    rename(ID = course_ID)
-# table_index_print %>% count(course_addway)
-# table_index_print %>% filter(is.na(course_addway))
-# filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
-# table_index_print %>% count(ID)
+
 colnames(table_index_print) <- str_replace(colnames(table_index_print),"course_|link_", "")
-cool <- readRDS("dennis_good.rds") %>% mutate(detail_time = as.factor(detail_time))
+cool <- readRDS("dennis_good.rds") %>% mutate(detail_time = as.factor(detail_time)) %>%
+   add_row(detail_time = "NA")
+
 # cool %>% write.csv("dennis_good.csv", fileEncoding = "UTF-8" )
 # cool %>% readr::write_csv("dennis_good.csv")
 # cool <- readr::read_csv("dennis_good.csv") %>% mutate(detail_time = as.factor(detail_time))
@@ -31,7 +32,7 @@ cool <- readRDS("dennis_good.rds") %>% mutate(detail_time = as.factor(detail_tim
 # Encoding(colnames(cool)) <- "UTF-8"
 # stringi::stri_enc_mark(cool$detail_time)
 # stringi::stri_enc_mark(table_index_print$TA)
-
+# table_index_print %>% mutate(gg = if_else(is.na(TA), "gg", "good")) %>% count(gg)
 
 getdeps <- function() {
    htmltools::attachDependencies(
@@ -76,7 +77,7 @@ ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))),
                                                                        label = "Add Way",
                                                                        choices = c("1" = "1",
                                                                                    "2" = "2",
-                                                                                   "3" = "2",
+                                                                                   "3" = "3",
                                                                                    "NA" = "NA"),
                                                                        selected = c("1", "2", "3", "NA"),
                                                                        size = "xs",
@@ -173,12 +174,16 @@ ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))),
 #   )
 # )
 # DT::datatable(iris2, extensions = 'Responsive')
-
+# table_index_print %>% count(addway)
+#2955
 server <- function(input, output) {
    
    output$data <- renderDataTable({
       # weekday = c(input$Monday,input$Tuesday,input$Wednesday,input$Thursday,input$Friday,input$Saturday)
-      
+      # table_index_print %>%
+      #    filter(str_detect(mandatory,str_c("必|選"))) %>%
+      #    filter(str_detect(addway,str_c("1|2|3|NA")))
+         
       if ("All" %in% input$credit & "All" %in% input$TA & "All" %in% input$detail_time)
          DT::datatable(data.frame(table_index_print %>%
                                      filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
