@@ -22,6 +22,16 @@ table_detail_print <- readRDS("table_detail_print_eng_1081.rds") %>%
 # table_index_print %>% count(ID)
 colnames(table_index_print) <- str_replace(colnames(table_index_print),"course_|link_", "")
 cool <- readRDS("dennis_good.rds") %>% mutate(detail_time = as.factor(detail_time))
+# cool %>% write.csv("dennis_good.csv", fileEncoding = "UTF-8" )
+# cool %>% readr::write_csv("dennis_good.csv")
+# cool <- readr::read_csv("dennis_good.csv") %>% mutate(detail_time = as.factor(detail_time))
+# cool %>% readr::write_rds("dennis_good.rds")
+# con<-file('dennis_good.csv',encoding="UTF-8")
+# write.csv(cool, file=con)
+# Encoding(colnames(cool)) <- "UTF-8"
+# stringi::stri_enc_mark(cool$detail_time)
+# stringi::stri_enc_mark(table_index_print$TA)
+
 
 getdeps <- function() {
    htmltools::attachDependencies(
