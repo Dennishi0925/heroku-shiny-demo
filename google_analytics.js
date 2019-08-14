@@ -11,7 +11,7 @@
   m.parentNode.insertBefore(a,m);
 })(window,document,'script',
    'https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-143837983-2', 'herokuapp.com');
+ga('create', 'UA-143837983-2', 'ntucourse.herokuapp.com');
 ga('send', 'pageview');
 
 $(document).on('change', 'select', function(e) {
