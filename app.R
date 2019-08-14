@@ -21,7 +21,7 @@ table_detail_print <- readRDS("table_detail_print_eng_1081.rds") %>%
 # filter(str_detect(mandatory,str_c(input$mandotary, collapse = "|"))) %>%
 # table_index_print %>% count(ID)
 colnames(table_index_print) <- str_replace(colnames(table_index_print),"course_|link_", "")
-cool <- readRDS("dennis_good.rds")
+cool <- readRDS("dennis_good.rds") %>% mutate(detail_time = as.factor(detail_time))
 
 getdeps <- function() {
    htmltools::attachDependencies(
@@ -83,7 +83,7 @@ ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))),
                                                )),
                                         column(4,
                                                selectizeInput("detail_time", "Choose 上課時間",
-                                                              c("All"= "All", cool),
+                                                              c("All"= "All", levels(cool$detail_time)),
                                                               multiple = TRUE,
                                                               selected = "All",
                                                               width = '200px'
