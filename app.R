@@ -178,7 +178,7 @@ ui <- fluidPage(# tags$head(includeHTML(("google-analytics.html"))),
 #2955
 server <- function(input, output) {
    
-   output$data <- renderDataTable({
+   output$data <- DT::renderDataTable({
       # weekday = c(input$Monday,input$Tuesday,input$Wednesday,input$Thursday,input$Friday,input$Saturday)
       # table_index_print %>%
       #    filter(str_detect(mandatory,str_c("必|選"))) %>%
