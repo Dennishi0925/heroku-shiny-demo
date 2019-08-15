@@ -193,7 +193,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='", ID,                                    
                                                                "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                                ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
       
@@ -206,7 +206,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                         "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                         ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
       
@@ -219,7 +219,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                         "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                         ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
             
@@ -232,7 +232,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                         "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                         ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
       
@@ -245,7 +245,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                                "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                                ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
       
@@ -258,7 +258,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                                "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                                ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
       
@@ -272,7 +272,7 @@ server <- function(input, output) {
                                             ID = paste0("<a href='#table2'", "alt='",ID,                                    
                                                         "'onclick=\"tabs = $('.tabbable .nav.nav-tabs li');tabs.each(function() {$(this).removeClass('active')});$(tabs[1]).addClass('active');tabsContents = $('.tabbable .tab-content .tab-pane');tabsContents.each(function() {$(this).removeClass('active')});$(tabsContents[1]).addClass('active');$('#table2').trigger('change').trigger('shown');Shiny.onInputChange('ID', getAttribute('alt'));\">",
                                                         ID,"</a>"))), 
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)# %>% arrange(desc(college))
       
@@ -296,7 +296,7 @@ server <- function(input, output) {
                        #                               "'<span title=\"' + data + '\">' + data.substr(0, 6) + '...</span>' : data;",
                        #                               "}")
                        #                           ))
-                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE, search = '', server = FALSE),
+                       options=list(search = list(regex = TRUE, caseInsensitive = FALSE,  server = FALSE),
                                     columnDefs = list(list(visible=FALSE, targets=c(14,15)))
                        ),filter = list(position = 'top', clear = FALSE), escape = FALSE)
    }
